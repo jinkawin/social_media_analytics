@@ -10,11 +10,15 @@
     <body>
         <h1>Rango says...</h1>
         {% for tweet in tweets %}
-            {{ tweet.getTweet.id_str }} <br />
-            {{ tweet.getTweet.full_text }} <br />
-            {{ tweet.getTweet.entities.hashtags }} <br />
-            {{ tweet.getText }} <br />
-            {{ tweet.getHashtag }} <br />
+            Original ID: {{ tweet.getTweet.id_str }} <br /><br />
+            Original Full Text: {{ tweet.getTweet.full_text }} <br /><br />
+            Extracted Text: {{ tweet.getText }} <br /><br />
+            Processed Text:{{ tweet.getProcessedText }} <br /><br />
+
+            --------------------------------------------------------------------------------
+
+            Original Hashtags: {{ tweet.getTweet.entities.hashtags }} <br /><br />
+            Extracted Hashtags:{{ tweet.getHashtag }} <br /><br />
 
             ================================================================================
             <br/>

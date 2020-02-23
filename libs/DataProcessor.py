@@ -26,13 +26,18 @@ class DataProcessor:
         nlp = spacy.load('en_core_web_sm', disable=['ner'])
         return nlp(text)
 
+    # Normalisation
     def _normalise(self, tokens):
         normalized = list()
         for token in tokens:
+            # If word is "is, am, are" or "I", just leave it.
             if (token.lemma_ == "be" or token.text == "I"):
                 normalized.append(token.text)
+
+            # If word is shorten, turn the word in full word
             elif (token.text == "n't"):
                 normalized.append(token.lemma_)
+
             elif (token.is_alpha):
                 lemma = token.lemma_.lower().strip() if token.lemma_ != "-PRON-" else token.lower_
                 normalized.append(lemma)

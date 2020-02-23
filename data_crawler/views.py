@@ -9,15 +9,28 @@ from data_crawler.models import Tweet
 def index(request):
 
     context_dict = {}
+    data = {}
 
 # Twiiter crawler
     # Init
     twitterCrawler = TwitterCrawler()
-    twitterCrawler.auth()
 
     # Twitter Crawler
-    # tweets = twitterCrawler.searchTweet('#happy -filter:retweets -filter:links', 'en')
-    # context_dict['tweets'] = tweets
+    tweets = twitterCrawler.searchTweet('#happy -filter:retweets -filter:links', 'en')
+
+# Pre-process
+    processedTweets = list()
+    dataProcessor = DataProcessor()
+
+    for tweet in tweets:
+        tweet.setProcessedText(dataProcessor.preProcess(tweet.getText()))
+
+    # dataProcessor.preProcess("Hello!, I am won't haven't can't loove you :)  #happy #test")
+    # _temp = dataProcessor.preProcess("Heeellooo, I am #happy. Looooove you guys ;)")
+    # print(_temp)
+
+# Classifier
+
 
 # MongoDB
     # Save to MongoDB
@@ -32,11 +45,7 @@ def index(request):
     # tweet.name = 'Jinkawin'
     # tweet.save()
 
-# Pre-process
-    dataProcessor = DataProcessor()
-    # dataProcessor.preProcess("Hello!, I am won't haven't can't loove you :)  #happy #test")
-    _temp = dataProcessor.preProcess("Heeellooo, I am #happy. Looooove you guys")
-    # print(_temp)
-
+    context_dict['tweets'] = tweets
+    context_dict['processedTweets'] = processedTweets
     response = render(request, 'data_crawler/index.html', context = context_dict)
     return response

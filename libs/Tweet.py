@@ -6,6 +6,7 @@ class Tweet:
         self.tweet = tweetObj
         self.id = tweetObj.id_str
         self.fullText = tweetObj.full_text
+        self.processedText = ""
 
         self.text, self.hashtag = self._normalise(tweetObj)
 
@@ -19,12 +20,16 @@ class Tweet:
         return self.fullText
 
     def getText(self):
-        print('self.text', self.text)
         return self.text
 
     def getHashtag(self):
-        print('self.hashtag', self.hashtag)
         return self.hashtag
+
+    def getProcessedText(self):
+        return self.processedText
+
+    def setProcessedText(self, text):
+        self.processedText = text
 
     def _normalise(self, tweet):
         _text = ''

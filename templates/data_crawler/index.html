@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+{% load staticfiles %} <!-- New line -->
+
+<html>
+    <head>
+        <title>Rango</title>
+    </head>
+
+    <body>
+        <h1>Rango says...</h1>
+        {% for tweet in tweets %}
+            {{ tweet.getTweet.id_str }} <br />
+            {{ tweet.getTweet.full_text }} <br />
+            {{ tweet.getTweet.entities.hashtags }} <br />
+            {{ tweet.getText }} <br />
+            {{ tweet.getHashtag }} <br />
+
+            ================================================================================
+            <br/>
+        {% endfor %}
+    </body>
+
+</html>

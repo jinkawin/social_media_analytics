@@ -1,22 +1,20 @@
-from django.conf import settings
-
 import numpy as np
 import pandas as pd
 
-from .TextClassifier import TextClassifier
+from django.conf import settings
 
-class HashtagClassifier:
+from .NrcProcess import NrcProcess
+
+class HashtagClassifier(NrcProcess):
 
     def __init__(self):
-        self.vocabDf = self._readNrcLexiconFile('NRC_lexicon.csv')
-        self.hashtagDf = self._readHashtagFile('NRC_hashtag_lexicon.txt')
-        self.words = np.array(self.vocabDf["Word"])
+        super().__init__()
 
     def classify(self, hashtags):
         score = {}
         for hashtag in hashtags:
             print("hashtag: ", hashtag)
-            score = TextClassifier().getScore(hashtag)
+            score = self.getNrcScore(hashtag)
 
             # If there is no such a word in NRC lexicon, let's try in hashtag lexicon
             # if not score:
@@ -25,18 +23,7 @@ class HashtagClassifier:
 
         return score
 
-    def _readNrcLexiconFile(self, filename):
-        vocabDf = pd.read_csv(settings.STATIC_DIR + '/' + filename, encoding = "ISO-8859-1")
-        vocabDf = vocabDf.sort_values(by="Word")
-        return vocabDf
-
-    def _readHashtagFile(self, filename):
-        hashtagDf = pd.read_csv(settings.STATIC_DIR + '/' + filename, sep="	", names=["Emotion", "Word", "Score"])
-        hashtagDf["Word"] = hashtagDf["Word"].replace({'#':''}, regex=True)
-        hashtagDf = hashtagDf.sort_values(by="Word")
-
-        return hashtagDf
-
-    def printDict(self, dict):
-        for key, value in dict.items():
-            print("Key: ", key, "Value: ", value)
+    def getScore(self, hashtag):
+        vocabs = np.array(self.vocabDf["Word"])
+        emotions = np.array(self.vocabDf["Emotion"])
+        # _index = vocabs.searchsorted(word)

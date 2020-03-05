@@ -13,25 +13,25 @@ def index(request):
     context_dict = {}
 
 # TODO: Crawl others 5 classes
-# # Twiiter crawler
-#     # Init
-#     twitterCrawler = TwitterCrawler()
+# Twiiter crawler
+    # Init
+    twitterCrawler = TwitterCrawler()
 
-#     # Twitter Crawler
-#     tweets = twitterCrawler.searchTweet('#happy -filter:retweets -filter:links', 'en')
+    # Twitter Crawler
+    tweets = twitterCrawler.searchTweet('#happy -filter:retweets -filter:links', 'en')
 
-# # Pre-process
-#     processedTweets = list()
-#     dataProcessor = DataProcessor()
+# Pre-process
+    processedTweets = list()
+    dataProcessor = DataProcessor()
 
-#     for tweet in tweets:
-#         tweet.setProcessedText(dataProcessor.preProcess(tweet.getText()))
+    for tweet in tweets:
+        tweet.setProcessedText(dataProcessor.preProcess(tweet.getText()))
 
-# # # Classifier
-    # classifier = Classifier()
-    # classifier.classify(tweets)
+# # Classifier
+    classifier = Classifier()
+    classifier.classify(tweets)
 
-    hashtagClassifier = HashtagClassifier()
+    # hashtagClassifier = HashtagClassifier()
 
 
 # MongoDB

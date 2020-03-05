@@ -13,7 +13,7 @@ class Classifier:
             text = tweet.getProcessedText()
             hashtag = tweet.getHashtag()
 
-            print("Original", tweet.getFullText())
+            # print("Original", tweet.getFullText())
 
             # score = self.textClassifier.classify(text)
             self.hashtagClassifier.classify(hashtag)

@@ -10,6 +10,8 @@ from spacy.lang.en import English
 
 class DataProcessor:
 
+    # TODO: remove stop word and stemming
+
     def _myprint(self, mylist):
         for item in mylist:
             print(item)
@@ -18,7 +20,7 @@ class DataProcessor:
         tokens = self._tokenize(text)
         normalised = self._normalise(tokens)
         collected = self._spellCollect(normalised)
-        self._myprint(collected)
+        # self._myprint(collected)
         return collected
 
     # Tokenization
@@ -35,7 +37,7 @@ class DataProcessor:
                 normalized.append(token.text)
 
             # If word is shorten, turn the word in full word
-            elif (token.text == "n't"):
+            elif (token.text == "n't" or token.text == "'ll"):
                 normalized.append(token.lemma_)
 
             elif (token.is_alpha):

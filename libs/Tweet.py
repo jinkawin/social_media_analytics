@@ -10,21 +10,28 @@ class Tweet:
 
         self.text, self.hashtag = self._normalise(tweetObj)
 
+    # Get Original tweet object
+    # return tweetObj
     def getTweet(self):
         return self.tweet
 
+    # Get tweet's ID
     def getId(self):
         return self.id
 
+    # Get original tweet
     def getFullText(self):
         return self.fullText
 
-    def getText(self):
-        return self.text
-
+    # Get only hashtag
     def getHashtag(self):
         return self.hashtag
 
+    # Get nomalised text
+    def getText(self):
+        return self.text
+
+    # Get pre-processed text
     def getProcessedText(self):
         return self.processedText
 

@@ -14,16 +14,28 @@ class HashtagClassifier(NrcProcess):
         score = {}
         for hashtag in hashtags:
             print("hashtag: ", hashtag)
-            score = self.getNrcScore(hashtag)
+            # score = self.getNrcScore(hashtag)
 
             # If there is no such a word in NRC lexicon, let's try in hashtag lexicon
             # if not score:
+            score = self.getHashtagScore(hashtag, score)
 
-            print("----------------------------------------")
+        score = self.redefineEmotion(score)
 
         return score
 
-    def getScore(self, hashtag):
+    def getHashtagScore(self, hashtag, score):
         vocabs = np.array(self.vocabDf["Word"])
         emotions = np.array(self.vocabDf["Emotion"])
-        # _index = vocabs.searchsorted(word)
+
+        _index = vocabs.searchsorted(hashtag)
+        emotion = emotions[_index]
+
+        print("Emotion: ", emotion)
+
+        if emotion in score:
+            score[emotion] += 1
+        else:
+            score[emotion] = 1
+
+        return score

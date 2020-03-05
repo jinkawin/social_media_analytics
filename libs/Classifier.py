@@ -16,7 +16,7 @@ class Classifier:
             # print("Original", tweet.getFullText())
 
             # score = self.textClassifier.classify(text)
-            self.hashtagClassifier.classify(hashtag)
+            # self.hashtagClassifier.classify(hashtag)
 
 
             # Find the max score

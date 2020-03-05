@@ -1,30 +1,49 @@
 from .TextClassifier import TextClassifier
 from .HashtagClassifier import HashtagClassifier
+from .EmoticonClassifier import EmoticonClassifier
+from .NrcProcess import NrcProcess
 
 class Classifier:
     def __init__(self):
         self.textClassifier = TextClassifier()
         self.hashtagClassifier = HashtagClassifier()
+        self.emoticonClassifier = EmoticonClassifier()
+        self.nrcProcess = NrcProcess()
 
     def classify(self, tweets):
+        scoreAnalysis = {}
         score = {}
 
         for tweet in tweets:
             text = tweet.getProcessedText()
             hashtag = tweet.getHashtag()
+            fullText = tweet.getFullText()
 
-            # print("Original", tweet.getFullText())
+            print("Full Text: ", fullText)
 
-            # score = self.textClassifier.classify(text)
-            # self.hashtagClassifier.classify(hashtag)
-
+            _score = self.textClassifier.classify(text)
+            score = self.nrcProcess.sumScore(_score, score)
+            _score = self.hashtagClassifier.classify(hashtag)
+            score = self.nrcProcess.sumScore(_score, score)
+            _score = self.emoticonClassifier.classify(fullText)
+            score = self.nrcProcess.sumScore(_score, score)
 
             # Find the max score
-            # maxScore = max(sorted(score.values()))
-            # maxValues = [k for k,v in score.items() if v == maxScore]
+            maxScore = max(sorted(score.values()))
+            maxValues = [k for k,v in score.items() if v == maxScore]
+
+            print("Value: ", maxValues)
+            for value in maxValues:
+                if value in scoreAnalysis:
+                    scoreAnalysis[value] += 1
+                else:
+                    scoreAnalysis[value] = 1
 
             # for item in maxValues:
             #     print("maxValues: ", item)
             # reset the score
             score = {}
             print("===================================")
+        # END For
+
+        print("Result: ", scoreAnalysis)

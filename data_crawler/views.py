@@ -2,11 +2,12 @@ from django.shortcuts import render
 from libs.TwitterCrawler import TwitterCrawler
 from libs.DataProcessor import DataProcessor
 from libs.Classifier import Classifier
-from libs.HashtagClassifier import HashtagClassifier
 
 from libs.emotions.EmotionEnum import EmotionEnum
 
 from data_crawler.models import Tweet
+
+from libs.EmoticonClassifier import EmoticonClassifier
 
 def index(request):
 
@@ -30,8 +31,6 @@ def index(request):
 # # Classifier
     classifier = Classifier()
     classifier.classify(tweets)
-
-    # hashtagClassifier = HashtagClassifier()
 
 
 # MongoDB

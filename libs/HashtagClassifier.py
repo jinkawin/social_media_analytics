@@ -13,7 +13,8 @@ class HashtagClassifier(NrcProcess):
     def classify(self, hashtags):
         score = {}
         for hashtag in hashtags:
-            print("hashtag: ", hashtag)
+            # print("hashtag: ", hashtag)
+
             # score = self.getNrcScore(hashtag)
 
             # If there is no such a word in NRC lexicon, let's try in hashtag lexicon
@@ -31,7 +32,7 @@ class HashtagClassifier(NrcProcess):
         _index = vocabs.searchsorted(hashtag)
         emotion = emotions[_index]
 
-        print("Emotion: ", emotion)
+        # print("Emotion: ", emotion)
 
         if emotion in score:
             score[emotion] += 1

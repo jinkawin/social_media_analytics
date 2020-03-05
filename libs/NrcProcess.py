@@ -27,11 +27,11 @@ class NrcProcess:
             # move to the next index
             _index += 1
 
-        print("_nrcScore: ")
-        self.printDict(_nrcScore)
+        # print("_nrcScore: ")
+        # self.printDict(_nrcScore)
         nrcScore = self.redefineEmotion(_nrcScore)
-        print("Redefine Emotion: ")
-        self.printDict(nrcScore)
+        # print("Redefine Emotion: ")
+        # self.printDict(nrcScore)
 
         return nrcScore
 
@@ -62,7 +62,7 @@ class NrcProcess:
 
     def printDict(self, dict):
         for key, value in dict.items():
-            print("Key: ", key, "Value: ", value)
+            print("Key: ", key, ", Value: ", value)
 
     def _readNrcLexiconFile(self, filename):
         vocabDf = pd.read_csv(settings.STATIC_DIR + '/' + filename, encoding = "ISO-8859-1")
@@ -75,3 +75,11 @@ class NrcProcess:
         hashtagDf = hashtagDf.sort_values(by="Word")
 
         return hashtagDf
+
+    def sumScore(self, score1, score2):
+        # sum 2 dict up
+        result = {key: score1.get(key, 0) + score2.get(key, 0) for key in set(score1) | set(score2)}
+        # print("result: ")
+        # self.printDict(result)
+
+        return result

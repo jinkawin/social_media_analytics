@@ -1,6 +1,7 @@
 from libs.emotions.Emotion import Emotion
 
 class Happy(Emotion):
+    NAME = 'Happy'
     HASHTAGS = ['happy', 'love', 'joy']
     EMOTICONS = [':)', ';)', ':]', ';]', ':P', ';P', ':D', ';D', ':>', ':-)', ';-)', ':^)', ';^)', ':-D', ':->', '=)', '=]', '<3']
 
@@ -8,5 +9,4 @@ class Happy(Emotion):
         super().__init__(self.HASHTAGS, self.EMOTICONS)
 
     def hello(self):
-        print("hello")
-        # return super().hello()
+        print("Happy")

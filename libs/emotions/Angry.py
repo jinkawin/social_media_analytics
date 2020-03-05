@@ -1,6 +1,7 @@
 from libs.emotions.Emotion import Emotion
 
 class Angry(Emotion):
+    NAME = 'Angry'
     HASHTAGS = ['angry', 'annoyed', 'hate', 'irritated']
     EMOTICONS = [':@', '>:(', '>:[', ':/', ':‑/', '=/', ':S']
 
@@ -8,4 +9,4 @@ class Angry(Emotion):
         super().__init__(self.HASHTAGS, self.EMOTICONS)
 
     def hello(self):
-        return "Angry"
+        print("Angry")

@@ -11,6 +11,7 @@ class Classifier:
         self.nrcProcess = NrcProcess()
 
     def classify(self, tweets):
+        classifierAnalysis = {}
         scoreAnalysis = {}
         score = {}
 
@@ -39,6 +40,13 @@ class Classifier:
                 else:
                     scoreAnalysis[value] = 1
 
+            if len(maxValues) == 1:
+                _classified = maxValues[0]
+                if _classified in classifierAnalysis:
+                    classifierAnalysis[_classified] += 1
+                else:
+                    classifierAnalysis[_classified] = 1
+
             # for item in maxValues:
             #     print("maxValues: ", item)
             # reset the score
@@ -46,4 +54,5 @@ class Classifier:
             print("===================================")
         # END For
 
-        print("Result: ", scoreAnalysis)
+        print("scoreAnalysis: ", scoreAnalysis)
+        print("classifierAnalysis: ", classifierAnalysis)

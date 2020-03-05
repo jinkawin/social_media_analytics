@@ -3,7 +3,7 @@ from libs.Tweet import Tweet
 
 class TwitterCrawler:
 
-    MAX_TWEETS = 5
+    MAX_TWEETS = 100
 
     def __init__(self):
         self.consumer_key = '9Wc1trOeRGpo6PvPOUMPwUDWK'

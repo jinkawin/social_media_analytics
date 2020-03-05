@@ -30,13 +30,16 @@ class HashtagClassifier(NrcProcess):
         emotions = np.array(self.vocabDf["Emotion"])
 
         _index = vocabs.searchsorted(hashtag)
-        emotion = emotions[_index]
+        if _index < len(emotions):
+            emotion = emotions[_index]
 
-        # print("Emotion: ", emotion)
+            # print("Emotion: ", emotion)
 
-        if emotion in score:
-            score[emotion] += 1
+            if emotion in score:
+                score[emotion] += 1
+            else:
+                score[emotion] = 1
+
+            return score
         else:
-            score[emotion] = 1
-
-        return score
+            return score

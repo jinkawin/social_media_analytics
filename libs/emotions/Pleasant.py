@@ -2,7 +2,7 @@ from libs.emotions.Emotion import Emotion
 
 class Pleasant(Emotion):
     NAME = 'Pleasant'
-    HASHTAGS = ['pleasant', 'accept', 'attractive']
+    HASHTAGS = ['#pleasant', '#accept', '#attractive']
     EMOTICONS = [':3']
 
     def __init__(self):

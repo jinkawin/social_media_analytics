@@ -6,6 +6,7 @@ from django.conf import settings
 from .NrcProcess import NrcProcess
 
 class HashtagClassifier(NrcProcess):
+    IS_DEBUG = False
 
     def __init__(self):
         super().__init__()
@@ -13,19 +14,20 @@ class HashtagClassifier(NrcProcess):
     def classify(self, hashtags):
         score = {}
         for hashtag in hashtags:
-            # print("hashtag: ", hashtag)
+            if self.IS_DEBUG: print("hashtag: ", hashtag)
 
-            # score = self.getNrcScore(hashtag)
+            _score = self.getHashtagScore(hashtag)
+            print("[HashtagClassifier] _score: ", _score)
+            _redefined = self.redefineEmotion(_score)
+            print("[HashtagClassifier] _redefined: ", _redefined)
+            score = self.sumScore(score, _redefined)
+            print("[HashtagClassifier] score: ", score)
 
-            # If there is no such a word in NRC lexicon, let's try in hashtag lexicon
-            # if not score:
-            score = self.getHashtagScore(hashtag, score)
-
-        score = self.redefineEmotion(score)
-
+        print('------------------------------------------')
         return score
 
-    def getHashtagScore(self, hashtag, score):
+    def getHashtagScore(self, hashtag):
+        score = {}
         vocabs = np.array(self.vocabDf["Word"])
         emotions = np.array(self.vocabDf["Emotion"])
 
@@ -33,7 +35,7 @@ class HashtagClassifier(NrcProcess):
         if _index < len(emotions):
             emotion = emotions[_index]
 
-            # print("Emotion: ", emotion)
+            if self.IS_DEBUG: print("Emotion: ", emotion)
 
             if emotion in score:
                 score[emotion] += 1

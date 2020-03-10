@@ -5,6 +5,6 @@ class EmotionEnum(Enum):
     ANGRY = Angry()
     EXCITEMENT = Excitement()
     FEAR = Fear()
-    HAPPY = Happy()
+    HAPPY = Happy() #Yes
     PLEASANT = Pleasant()
     SURPRISE = Surprise()

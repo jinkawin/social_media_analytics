@@ -7,6 +7,7 @@ from .NrcProcess import NrcProcess
 from libs.emotions.EmotionEnum import EmotionEnum
 
 class EmoticonClassifier(NrcProcess):
+    IS_DEBUG = False
 
     def __init__(self):
         super().__init__()
@@ -18,6 +19,6 @@ class EmoticonClassifier(NrcProcess):
             if any(emoticon in sentence for emoticon in emoticons):
                 emotions[emotion.value.NAME] = 1
 
-        # print("Emoticons: ")
-        # self.printDict(emotions)
+        if self.IS_DEBUG: print("Emoticons: ")
+        if self.IS_DEBUG: self.printDict(emotions)
         return emotions

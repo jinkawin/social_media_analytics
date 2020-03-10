@@ -5,10 +5,11 @@ import re
 
 from string import punctuation
 from nltk.corpus import stopwords
-from autocorrect import spell
+from autocorrect import Speller
 from spacy.lang.en import English
 
 class DataProcessor:
+    IS_DEBUG = False
 
     # TODO: remove stop word and stemming
 
@@ -20,7 +21,7 @@ class DataProcessor:
         tokens = self._tokenize(text)
         normalised = self._normalise(tokens)
         collected = self._spellCollect(normalised)
-        # self._myprint(collected)
+        if self.IS_DEBUG: self._myprint(collected)
         return collected
 
     # Tokenization
@@ -48,6 +49,7 @@ class DataProcessor:
         return normalized
 
     def _spellCollect(self, token):
+        spell = Speller(lang='en')
         corrected = list()
         pattern = re.compile(r"(.)\1{2,}")
 

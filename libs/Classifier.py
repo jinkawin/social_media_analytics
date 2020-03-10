@@ -4,55 +4,76 @@ from .EmoticonClassifier import EmoticonClassifier
 from .NrcProcess import NrcProcess
 
 class Classifier:
+    IS_DEBUG = False
+
     def __init__(self):
         self.textClassifier = TextClassifier()
         self.hashtagClassifier = HashtagClassifier()
         self.emoticonClassifier = EmoticonClassifier()
         self.nrcProcess = NrcProcess()
 
-    def classify(self, tweets):
+    def classify(self, tweets, emotionClass):
         classifierAnalysis = {}
         scoreAnalysis = {}
         score = {}
+        result = {}
 
         for tweet in tweets:
             text = tweet.getProcessedText()
             hashtag = tweet.getHashtag()
             fullText = tweet.getFullText()
 
-            print("Full Text: ", fullText)
+            if self.IS_DEBUG: print("[Classifier] Full Text: ", fullText)
 
             _score = self.textClassifier.classify(text)
             score = self.nrcProcess.sumScore(_score, score)
-            _score = self.hashtagClassifier.classify(hashtag)
+
+            if self.IS_DEBUG: print("[Classifier] nrcProcess: ", score)
+
+            # _score = self.hashtagClassifier.classify(hashtag)
+            # score = self.nrcProcess.sumScore(_score, score)
+
+            # _score = self.emoticonClassifier.classify(fullText)
+            # If there is emoticon in the tweet
+            if _score:
+                tweet.setIsContainEmoticon(True)
             score = self.nrcProcess.sumScore(_score, score)
-            _score = self.emoticonClassifier.classify(fullText)
-            score = self.nrcProcess.sumScore(_score, score)
 
-            # Find the max score
-            maxScore = max(sorted(score.values()))
-            maxValues = [k for k,v in score.items() if v == maxScore]
+            if self.IS_DEBUG: print("[Classifier] Score: ", score)
 
-            print("Value: ", maxValues)
-            for value in maxValues:
-                if value in scoreAnalysis:
-                    scoreAnalysis[value] += 1
-                else:
-                    scoreAnalysis[value] = 1
+            if score:
+                # Find the max score
+                maxScore = max(sorted(score.values()))
+                maxValues = [k for k,v in score.items() if v == maxScore]
 
-            if len(maxValues) == 1:
-                _classified = maxValues[0]
-                if _classified in classifierAnalysis:
-                    classifierAnalysis[_classified] += 1
-                else:
-                    classifierAnalysis[_classified] = 1
+                # For Analysis
+                if self.IS_DEBUG: print("[Classifier] Value: ", maxValues)
+                for value in maxValues:
+                    if value in scoreAnalysis:
+                        scoreAnalysis[value] += 1
+                    else:
+                        scoreAnalysis[value] = 1
 
-            # for item in maxValues:
-            #     print("maxValues: ", item)
-            # reset the score
-            score = {}
-            print("===================================")
+                if len(maxValues) == 1:
+                    _classified = maxValues[0]
+                    # If the classified tweet is the same as given class
+                    if _classified == emotionClass:
+                        result[tweet.getId()] = tweet
+
+                    # For Analysis
+                    if _classified in classifierAnalysis:
+                        classifierAnalysis[_classified] += 1
+                    else:
+                        classifierAnalysis[_classified] = 1
+
+                # reset the score
+                score = {}
+                if self.IS_DEBUG: print("[Classifier] ===================================")
+            # END If
         # END For
 
-        print("scoreAnalysis: ", scoreAnalysis)
-        print("classifierAnalysis: ", classifierAnalysis)
+        # For Analysis
+        if self.IS_DEBUG: print("[Classifier] scoreAnalysis: ", scoreAnalysis)
+        if self.IS_DEBUG: print("[Classifier] classifierAnalysis: ", classifierAnalysis)
+
+        return result

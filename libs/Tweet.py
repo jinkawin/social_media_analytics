@@ -8,6 +8,8 @@ class Tweet:
         self.fullText = tweetObj.full_text
         self.processedText = ""
 
+        self.isContainEmoticon = False
+
         self.text, self.hashtag = self._normalise(tweetObj)
 
     # Get Original tweet object
@@ -30,6 +32,13 @@ class Tweet:
     # Get nomalised text
     def getText(self):
         return self.text
+
+    # Get pre-processed text
+    def getIsContainEmoticon(self):
+        return self.isContainEmoticon
+
+    def setIsContainEmoticon(self, value):
+        self.isContainEmoticon = value
 
     # Get pre-processed text
     def getProcessedText(self):

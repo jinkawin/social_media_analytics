@@ -8,9 +8,11 @@
     </head>
 
     <body>
-        <h1>Rango says...</h1>
+        <h1>Tweets Classifier</h1>
+
         {% for tweet in tweets %}
             Original ID: {{ tweet.getTweet.id_str }} <br /><br />
+            Create Date: {{ tweet.getTweet.created_at }} <br /><br />
             Original Full Text: {{ tweet.getTweet.full_text }} <br /><br />
             Extracted Text: {{ tweet.getText }} <br /><br />
             Processed Text:{{ tweet.getProcessedText }} <br /><br />

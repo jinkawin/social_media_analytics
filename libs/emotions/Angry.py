@@ -2,7 +2,8 @@ from libs.emotions.Emotion import Emotion
 
 class Angry(Emotion):
     NAME = 'Angry'
-    HASHTAGS = ['angry', 'annoyed', 'hate', 'irritated']
+    # HASHTAGS = ['#angry', '#annoyed', '#hate', '#irritated', '#shutup', '#damn', '#mad', '#pissoff', '#racist']
+    HASHTAGS = ['#arguments']
     EMOTICONS = [':@', '>:(', '>:[', ':/', ':‑/', '=/', ':S']
 
     def __init__(self):

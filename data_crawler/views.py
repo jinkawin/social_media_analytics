@@ -1,50 +1,34 @@
+from datetime import datetime, timedelta
+
 from django.shortcuts import render
 from libs.TwitterCrawler import TwitterCrawler
-from libs.DataProcessor import DataProcessor
-from libs.Classifier import Classifier
+
+from data_crawler.models import HappyModel
+from data_crawler.models import FearModel
+from data_crawler.models import AngryModel
 
 from libs.emotions.EmotionEnum import EmotionEnum
-
-from data_crawler.models import Tweet
-
 from libs.EmoticonClassifier import EmoticonClassifier
 
 def index(request):
 
     context_dict = {}
 
-# TODO: Crawl others 5 classes
-# Twiiter crawler
-    # Init
     twitterCrawler = TwitterCrawler()
 
-    # Twitter Crawler
-    tweets = twitterCrawler.searchTweet('#happy -filter:retweets -filter:links', 'en')
+    seeds = ' OR '.join(EmotionEnum.ANGRY.value.HASHTAGS)
 
-# Pre-process
-    processedTweets = list()
-    dataProcessor = DataProcessor()
+    tweets = twitterCrawler.searchTweet(seeds + ' -filter:retweets -filter:links', 'en', EmotionEnum.ANGRY.value.NAME)
 
-    for tweet in tweets:
-        tweet.setProcessedText(dataProcessor.preProcess(tweet.getText()))
-
-# # Classifier
-    classifier = Classifier()
-    classifier.classify(tweets)
-
-
-# MongoDB
-    # Save to MongoDB
-    # try:
-    #     tweets = Tweet.objects.all()
-    #     for tweet in tweets:
-    #         print(tweet.name)
-    # except Tweet.DoesNotExist:
-    #     print('None')
-
-    # tweet = Tweet(name='Win')
-    # tweet.name = 'Jinkawin'
-    # tweet.save()
+    # MongoDB
+    for _id, tweet in tweets.items():
+        tweetModel = AngryModel()
+        tweetModel.tweet_id = tweet.getId()
+        tweetModel.original_text = tweet.getFullText()
+        tweetModel.processed_text = tweet.getProcessedText()
+        tweetModel.is_contain_emoticon = tweet.getIsContainEmoticon()
+        tweetModel.create_at = tweet.getTweet().created_at
+        tweetModel.save()
 
     # context_dict['tweets'] = tweets
     # context_dict['processedTweets'] = processedTweets

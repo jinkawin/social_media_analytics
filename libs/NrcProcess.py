@@ -2,8 +2,10 @@ import numpy as np
 import pandas as pd
 
 from django.conf import settings
+from libs.emotions.EmotionEnum import EmotionEnum
 
 class NrcProcess:
+    IS_DEBUG = False
 
     def __init__(self):
         self.vocabDf = self._readNrcLexiconFile('NRC_lexicon.csv')
@@ -27,15 +29,15 @@ class NrcProcess:
             # move to the next index
             _index += 1
 
-        # print("_nrcScore: ")
-        # self.printDict(_nrcScore)
         nrcScore = self.redefineEmotion(_nrcScore)
-        # print("Redefine Emotion: ")
-        # self.printDict(nrcScore)
+        # nrcScore = _nrcScore
 
         return nrcScore
 
     def redefineEmotion(self, score):
+        result = self._initEmotionScore()
+
+        # [Version 1]
         # Exitement = anticipation
         # Happy = joy
         # Pleasant = positive, trust
@@ -43,20 +45,74 @@ class NrcProcess:
         # Fear = fear, disgust
         # Angry = anger
 
-        result = {}
+        # if 'anticip' in score:
+        #     result[EmotionEnum.EXCITEMENT.value.NAME] = 1
+        # if 'joy' in score:
+        #     result[EmotionEnum.HAPPY.value.NAME] = 1
+        # if 'positive' in score or 'trust' in score:
+        #     result[EmotionEnum.PLEASANT.value.NAME] = 1
+        # if 'negative' in score or 'sadness' in score or 'surprise' in scor e:
+        #     result[EmotionEnum.SURPRISE.value.NAME] = 1
+        # if 'fear' in score or 'disgust' in score:
+        #     result[EmotionEnum.FEAR.value.NAME] = 1
+        # if 'anger' in score:
+        #     result[EmotionEnum.ANGRY.value.NAME] = 1
 
-        if 'anticip' in score:
-            result['excitement'] = 1
-        if 'joy' in score:
-            result['happy'] = 1
-        if 'positive' in score or 'trust' in score:
-            result['pleasant'] = 1
-        if 'negative' in score or 'sadness' in score or 'surprise' in score:
-            result['surprise'] = 1
-        if 'fear' in score or 'disgust' in score:
-            result['fear'] = 1
-        if 'anger' in score:
-            result['angry'] = 1
+        # -------------------------------------------------------------------
+
+        # [Version 2]
+        # Positive
+        # Exitement = positive + anticipation, positive + surprise
+        # Happy = positive + joy, positive + fear, positive + sadness
+        # Pleasant = positive + trust, positive + anger, positive + disgust
+
+        # Negative
+        # Surprise = negative + sadness, negative + surprise, negative + joy
+        # Fear = negative + fear, negative + anticipation, negative + trust
+        # Angry = negative + anger, negative + disgust
+
+        # Neutral
+        # Exitement = anticipation
+        # Happy = joy
+        # Pleasant = trust
+        # Surprise = sadness, surprise
+        # Fear = fear, disgust
+        # Angry = anger
+
+        # Positive
+        if 'positive' in score:
+            if 'anticip' in score or 'surprise' in score:
+                result[EmotionEnum.EXCITEMENT.value.NAME] += 1
+            if 'joy' in score or 'fear' in score or 'sadness' in score:
+                result[EmotionEnum.HAPPY.value.NAME] += 1
+            if 'trust' in score or 'anger' in score or 'disgust' in score:
+                result[EmotionEnum.PLEASANT.value.NAME] += 1
+
+        # Negative
+        elif 'negative' in score:
+            if 'sadness' in score or 'surprise' in score or 'joy' in score:
+                result[EmotionEnum.SURPRISE.value.NAME] += 1
+            if 'anticip' in score or 'fear' in score or 'trust' in score:
+                result[EmotionEnum.FEAR.value.NAME] += 1
+            if 'anger' in score or 'disgust' in score:
+                result[EmotionEnum.ANGRY.value.NAME] += 1
+
+
+        # Neutral
+        else:
+            if 'anticip' in score:
+                result[EmotionEnum.EXCITEMENT.value.NAME] += 1
+            if 'joy' in score:
+                result[EmotionEnum.HAPPY.value.NAME] += 1
+            if 'trust' in score:
+                result[EmotionEnum.PLEASANT.value.NAME] += 1
+            if 'sadness' in score or 'surprise' in score:
+                result[EmotionEnum.SURPRISE.value.NAME] += 1
+            if 'fear' in score or 'disgust' in score:
+                result[EmotionEnum.FEAR.value.NAME] += 1
+            if 'anger' in score:
+                result[EmotionEnum.ANGRY.value.NAME] += 1
+
 
         return result
 
@@ -76,10 +132,16 @@ class NrcProcess:
 
         return hashtagDf
 
+    def _initEmotionScore(self):
+        score = {}
+        for emotionEnum in EmotionEnum:
+            score[emotionEnum.value.NAME] = 0
+
+        return score
+
     def sumScore(self, score1, score2):
         # sum 2 dict up
         result = {key: score1.get(key, 0) + score2.get(key, 0) for key in set(score1) | set(score2)}
-        # print("result: ")
-        # self.printDict(result)
+        if self.IS_DEBUG: print("[NrcProcess] result: ", result)
 
         return result

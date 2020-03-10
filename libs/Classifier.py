@@ -30,10 +30,10 @@ class Classifier:
 
             if self.IS_DEBUG: print("[Classifier] nrcProcess: ", score)
 
-            # _score = self.hashtagClassifier.classify(hashtag)
-            # score = self.nrcProcess.sumScore(_score, score)
+            _score = self.hashtagClassifier.classify(hashtag)
+            score = self.nrcProcess.sumScore(_score, score)
 
-            # _score = self.emoticonClassifier.classify(fullText)
+            _score = self.emoticonClassifier.classify(fullText)
             # If there is emoticon in the tweet
             if _score:
                 tweet.setIsContainEmoticon(True)
@@ -47,7 +47,8 @@ class Classifier:
                 maxValues = [k for k,v in score.items() if v == maxScore]
 
                 # For Analysis
-                if self.IS_DEBUG: print("[Classifier] Value: ", maxValues)
+                if self.IS_DEBUG: print("[Classifier] Max Value: ", maxValues)
+                if self.IS_DEBUG: print("[Classifier] emotionClass: ", emotionClass)
                 for value in maxValues:
                     if value in scoreAnalysis:
                         scoreAnalysis[value] += 1

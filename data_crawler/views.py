@@ -4,8 +4,6 @@ from django.shortcuts import render
 from libs.TwitterCrawler import TwitterCrawler
 
 from data_crawler.models import HappyModel
-from data_crawler.models import FearModel
-from data_crawler.models import AngryModel
 
 from libs.emotions.EmotionEnum import EmotionEnum
 from libs.EmoticonClassifier import EmoticonClassifier
@@ -16,13 +14,13 @@ def index(request):
 
     twitterCrawler = TwitterCrawler()
 
-    seeds = ' OR '.join(EmotionEnum.ANGRY.value.HASHTAGS)
+    seeds = ' OR '.join(EmotionEnum.HAPPY.value.HASHTAGS)
 
-    tweets = twitterCrawler.searchTweet(seeds + ' -filter:retweets -filter:links', 'en', EmotionEnum.ANGRY.value.NAME)
+    tweets = twitterCrawler.searchTweet(seeds + ' -filter:retweets -filter:links', 'en', EmotionEnum.HAPPY.value.NAME)
 
     # MongoDB
     for _id, tweet in tweets.items():
-        tweetModel = AngryModel()
+        tweetModel = HappyModel()
         tweetModel.tweet_id = tweet.getId()
         tweetModel.original_text = tweet.getFullText()
         tweetModel.processed_text = tweet.getProcessedText()

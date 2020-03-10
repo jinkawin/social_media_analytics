@@ -113,7 +113,6 @@ class NrcProcess:
             if 'anger' in score:
                 result[EmotionEnum.ANGRY.value.NAME] += 1
 
-
         return result
 
     def printDict(self, dict):

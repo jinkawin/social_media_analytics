@@ -17,13 +17,13 @@ class HashtagClassifier(NrcProcess):
             if self.IS_DEBUG: print("hashtag: ", hashtag)
 
             _score = self.getHashtagScore(hashtag)
-            print("[HashtagClassifier] _score: ", _score)
+            if self.IS_DEBUG: print("[HashtagClassifier] _score: ", _score)
             _redefined = self.redefineEmotion(_score)
-            print("[HashtagClassifier] _redefined: ", _redefined)
+            if self.IS_DEBUG: print("[HashtagClassifier] _redefined: ", _redefined)
             score = self.sumScore(score, _redefined)
-            print("[HashtagClassifier] score: ", score)
+            if self.IS_DEBUG: print("[HashtagClassifier] score: ", score)
 
-        print('------------------------------------------')
+        if self.IS_DEBUG: print('------------------------------------------')
         return score
 
     def getHashtagScore(self, hashtag):

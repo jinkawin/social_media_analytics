@@ -76,8 +76,8 @@ class NrcProcess:
         # Happy = joy
         # Pleasant = trust
         # Surprise = sadness, surprise
-        # Fear = fear, disgust
-        # Angry = anger
+        # Fear = fear
+        # Angry = anger, disgust
 
         # Positive
         if 'positive' in score:
@@ -108,9 +108,9 @@ class NrcProcess:
                 result[EmotionEnum.PLEASANT.value.NAME] += 1
             if 'sadness' in score or 'surprise' in score:
                 result[EmotionEnum.SURPRISE.value.NAME] += 1
-            if 'fear' in score or 'disgust' in score:
+            if 'fear' in score:
                 result[EmotionEnum.FEAR.value.NAME] += 1
-            if 'anger' in score:
+            if 'anger' in score or 'disgust' in score:
                 result[EmotionEnum.ANGRY.value.NAME] += 1
 
         return result

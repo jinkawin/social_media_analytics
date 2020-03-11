@@ -1,3 +1,5 @@
+from data_crawler.models import *
+
 class Emotion:
 
     def __init__(self, hashtags, emoticons):

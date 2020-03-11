@@ -6,7 +6,7 @@ from libs.Classifier import Classifier
 
 class TwitterCrawler:
 
-    MAX_TWEETS = 150
+    MAX_TWEETS = 1
 
     def __init__(self):
         self.consumer_key = '9Wc1trOeRGpo6PvPOUMPwUDWK'
@@ -46,7 +46,7 @@ class TwitterCrawler:
                 break
 
 
-        print("---------------- Summary ----------------")
+        print("---------------- ", emotionClass, "Summary ----------------")
         print("Total number of crawled tweets: ", i * 15)
         print("Total number of classified tweets: ", len(result))
         print("Total number of removed tweets: ", (i*15) - len(result))

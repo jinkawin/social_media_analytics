@@ -4,5 +4,6 @@ from data_crawler import views
 app_name = 'data_crawler'
 
 urlpatterns = [
-    path('', views.index, name='index')
+    path('', views.index, name='index'),
+    path('generateCsv/', views.generateCsv, name='generateCsv')
 ]

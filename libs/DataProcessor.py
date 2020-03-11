@@ -41,9 +41,13 @@ class DataProcessor:
             elif (token.text == "n't" or token.text == "'ll"):
                 normalized.append(token.lemma_)
 
+            # token is alphabetic characters
             elif (token.is_alpha):
+                # If token is pronoun, lower token by token.lower_
                 lemma = token.lemma_.lower().strip() if token.lemma_ != "-PRON-" else token.lower_
                 normalized.append(lemma)
+
+            # Special characters
             else:
                 normalized.append(token.text)
         return normalized

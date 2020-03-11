@@ -1,4 +1,5 @@
 from libs.emotions.Emotion import Emotion
+from data_crawler.models import SurpriseModel
 
 class Surprise(Emotion):
     NAME = 'Surprise'
@@ -7,6 +8,9 @@ class Surprise(Emotion):
 
     def __init__(self):
         super().__init__(self.HASHTAGS, self.EMOTICONS)
+
+    def getDB(self):
+        return SurpriseModel
 
     def hello(self):
         return "Surprise"

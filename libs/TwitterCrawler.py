@@ -6,7 +6,7 @@ from libs.Classifier import Classifier
 
 class TwitterCrawler:
 
-    MAX_TWEETS = 1
+    MAX_TWEETS = 150
 
     def __init__(self):
         self.consumer_key = '9Wc1trOeRGpo6PvPOUMPwUDWK'

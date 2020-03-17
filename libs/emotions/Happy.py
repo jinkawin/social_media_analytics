@@ -1,5 +1,6 @@
 from libs.emotions.Emotion import Emotion
 from data_crawler.models import HappyModel
+from data_crawler.models import HappySampleModel
 
 class Happy(Emotion):
     NAME = 'Happy'
@@ -11,6 +12,9 @@ class Happy(Emotion):
 
     def getDB(self):
         return HappyModel
+
+    def getSampleDB(self):
+        return HappySampleModel
 
     def hello(self):
         print("Happy")

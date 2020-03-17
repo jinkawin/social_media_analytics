@@ -3,9 +3,9 @@ class Tweet:
     LAST_INDEX = 1
 
     def __init__(self, tweetObj):
-        self.tweet = tweetObj
         self.id = tweetObj.id_str
         self.fullText = tweetObj.full_text
+        self.createdAt = tweetObj.created_at
         self.processedText = ""
 
         self.isContainEmoticon = False
@@ -14,7 +14,7 @@ class Tweet:
 
     # Get Original tweet object
     # return tweetObj
-    def getTweet(self):
+    def getCreateAt(self):
         return self.tweet
 
     # Get tweet's ID

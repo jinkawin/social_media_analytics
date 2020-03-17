@@ -1,7 +1,7 @@
 import spacy
 import nltk
 import re
-# nltk.download('punkt')
+nltk.download('punkt')
 
 from string import punctuation
 from nltk.corpus import stopwords

@@ -1,5 +1,6 @@
 from libs.emotions.Emotion import Emotion
 from data_crawler.models import FearModel
+from data_crawler.models import FearSampleModel
 
 class Fear(Emotion):
     NAME = 'Fear'
@@ -11,6 +12,9 @@ class Fear(Emotion):
 
     def getDB(self):
         return FearModel
+
+    def getSampleDB(self):
+        return FearSampleModel
 
     def hello(self):
         print("Fear")

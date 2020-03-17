@@ -33,7 +33,7 @@ def index(request):
     #     tweetModel.original_text = tweet.getFullText()
     #     tweetModel.processed_text = tweet.getProcessedText()
     #     tweetModel.is_contain_emoticon = tweet.getIsContainEmoticon()
-    #     tweetModel.create_at = tweet.getTweet().created_at
+    #     tweetModel.create_at = tweet.getCreateAt()
     #     tweetModel.save()
 
     # context_dict['tweets'] = tweets

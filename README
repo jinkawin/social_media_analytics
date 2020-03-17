@@ -1,0 +1,33 @@
+1. Install external libs
+    pip install Flask
+    pip install numpy
+    pip install pandas
+    pip install tweepy
+    pip install scacy
+    pip install nltk
+    pip install autocorrect
+    pip install Django
+
+2. Set up Database
+    - Open social_media_analytics/social_media_analytics/settings.py
+    - Edit
+        DATABASES = {
+            'default': {
+                'ENGINE': 'djongo',
+                'NAME': <collection_name>,
+                'HOST': <hostname>
+            }
+        }
+
+3. Set up server
+    - python manage.py makemigrations
+    - python manage.py migrate
+
+
+4. Start a programme
+    4.1 Start Crawling and Classification
+        - python index.py
+    4.1 Export data for crowdsourcing
+        - python generate_crowdsourcing.py
+
+Note: This application does not support sampling data. Thus, to work in a small number of data, the maximum number of tweet (MAX_TWEETS) can be set in libs/TwitterCraler.py

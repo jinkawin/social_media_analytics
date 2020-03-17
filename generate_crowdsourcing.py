@@ -20,23 +20,36 @@ from libs.TwitterCrawler import TwitterCrawler
 
 from random import shuffle
 import csv
+import tweepy
+import json
 
 context_dict = {}
 
 twitterCrawler = TwitterCrawler()
 
-for emotion in EmotionEnum:
+test = {'full_text': 'Jinkawin'}
+_test = json.dumps(test)
+print(_test)
 
-    seeds = ' OR '.join(emotion.value.HASHTAGS)
-    tweets = twitterCrawler.searchTweet(seeds + ' -filter:retweets -filter:links', 'en', emotion.value.NAME)
+# for emotion in EmotionEnum:
 
-    # MongoDB
-    for _id, tweet in tweets.items():
-        model = emotion.value.getDB()
-        tweetModel = model()
-        tweetModel.tweet_id = tweet.getId()
-        tweetModel.original_text = tweet.getFullText()
-        tweetModel.processed_text = tweet.getProcessedText()
-        tweetModel.is_contain_emoticon = tweet.getIsContainEmoticon()
-        tweetModel.create_at = tweet.getCreateAt()
-        tweetModel.save()
+#     seeds = ' OR '.join(emotion.value.HASHTAGS)
+#     query = seeds + ' -filter:retweets -filter:links'
+
+#     twitterCrawler = TwitterCrawler()
+
+#     searched_tweets = [tweet for tweet in tweepy.Cursor(twitterCrawler.api.search, q=query, tweet_mode='extended', lang='en').items(10)]
+#     # writeCsv(searched_tweets)
+
+#     for tweet in searched_tweets:
+#         print(tweet)
+
+def writeCsv(records):
+    # http://zetcode.com/python/csv/
+
+    with f:
+        writer = csv.writer(f)
+        writer.writerow(['text'])
+
+        for record in records:
+            writer.writerow(record)
